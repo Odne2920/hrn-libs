@@ -34,7 +34,6 @@
         }
 
         /* --- Scrollbar Styling (Elegant Light Theme) --- */
-        /* Firefox */
         * { 
             box-sizing: border-box; 
             -webkit-font-smoothing: antialiased; 
@@ -42,25 +41,14 @@
             scrollbar-color: var(--sb-thumb) var(--sb-track);
         }
 
-        /* Chrome, Edge, Safari */
-        ::-webkit-scrollbar {
-            width: 10px;
-            height: 10px;
-        }
-
-        ::-webkit-scrollbar-track {
-            background: var(--sb-track);
-        }
-
+        ::-webkit-scrollbar { width: 10px; height: 10px; }
+        ::-webkit-scrollbar-track { background: var(--sb-track); }
         ::-webkit-scrollbar-thumb {
             background-color: var(--sb-thumb);
             border-radius: 10px;
-            border: 3px solid var(--sb-track); /* Creates a 'floating' look */
+            border: 3px solid var(--sb-track);
         }
-
-        ::-webkit-scrollbar-thumb:hover {
-            background-color: var(--sb-hover);
-        }
+        ::-webkit-scrollbar-thumb:hover { background-color: var(--sb-hover); }
 
         /* --- Global Styles --- */
         body {
@@ -193,7 +181,7 @@
         <h1>hrn.db</h1>
         <p class="hero-p">
             The high-performance, asynchronous interface for the HyperRush Game Catalog. 
-            Search, filter, and sort games directly from the client-side database.
+            Includes features for searching, filtering, favorites management, and random picks.
         </p>
     </header>
 
@@ -206,7 +194,7 @@
         
         <div class="code-block">
             <button class="copy-btn" onclick="copyCode(this)"><i data-lucide="copy" size="18"></i></button>
-            <pre><code><span class="tag">&lt;script</span> <span class="attr">src</span>=<span class="str">"https://cdn.jsdelivr.net/gh/Odne2920/hrn-libs/lib.min.js"</span><span class="tag">&gt;&lt;/script&gt;</span></code></pre>
+            <pre><code><span class="tag">&lt;script</span> <span class="attr">src</span>=<span class="str">"https://cdn.jsdelivr.net/gh/Odne2920/hrn-libs/lib2.min.js"</span><span class="tag">&gt;&lt;/script&gt;</span></code></pre>
         </div>
     </section>
 
@@ -234,25 +222,11 @@
     </section>
 
     <section>
-        <h2><i data-lucide="box" size="20"></i> 3. Methods</h2>
-        <p>All methods are accessible via <code>window.hrn.db</code> and return a <code>Promise</code>.</p>
+        <h2><i data-lucide="box" size="20"></i> 3. Core Methods</h2>
+        <p>All methods are accessible via <code>window.hrn.db</code> and return a <code>Promise</code> (async).</p>
 
         <h3>.search(query)</h3>
         <p>Performs a fuzzy search across Name, Category, and Device tags. Results are sorted by relevance.</p>
-        
-        <div class="table-wrap">
-            <table>
-                <thead><tr><th width="150">Parameter</th><th width="120">Type</th><th>Description</th></tr></thead>
-                <tbody>
-                    <tr>
-                        <td><code>query</code> <span class="req">REQ</span></td>
-                        <td><span class="type">string</span></td>
-                        <td>The text to search for (case-insensitive).</td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-        
         <div class="code-block">
             <button class="copy-btn" onclick="copyCode(this)"><i data-lucide="copy" size="18"></i></button>
             <pre><code><span class="s-kw">const</span> results = <span class="s-kw">await</span> hrn.db.<span class="s-kw">search</span>(<span class="s-str">"survival"</span>);</code></pre>
@@ -260,20 +234,6 @@
 
         <h3>.find(criteria)</h3>
         <p>Filters the database for exact matches on specific properties.</p>
-        
-        <div class="table-wrap">
-            <table>
-                <thead><tr><th width="150">Parameter</th><th width="120">Type</th><th>Description</th></tr></thead>
-                <tbody>
-                    <tr>
-                        <td><code>criteria</code> <span class="req">REQ</span></td>
-                        <td><span class="type">object</span></td>
-                        <td>Key-value pairs to match against.</td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-
         <div class="code-block">
             <button class="copy-btn" onclick="copyCode(this)"><i data-lucide="copy" size="18"></i></button>
             <pre><code><span class="s-kw">const</span> touchGames = <span class="s-kw">await</span> hrn.db.<span class="s-kw">find</span>({ 
@@ -282,33 +242,31 @@
 });</code></pre>
         </div>
 
-        <h3>.sort(data, key, reverse)</h3>
-        <p>Helper utility to sort a dataset alphabetically.</p>
-
-        <div class="table-wrap">
-            <table>
-                <thead><tr><th width="150">Parameter</th><th width="120">Type</th><th>Description</th></tr></thead>
-                <tbody>
-                    <tr><td><code>data</code> <span class="req">REQ</span></td><td><span class="type">Array</span></td><td>Array of GameObjects to sort.</td></tr>
-                    <tr><td><code>key</code></td><td><span class="type">string</span></td><td>Property to sort by (default: "name").</td></tr>
-                    <tr><td><code>reverse</code></td><td><span class="type">bool</span></td><td>Reverse order (default: false).</td></tr>
-                </tbody>
-            </table>
-        </div>
-
-        <h3>.getMeta()</h3>
-        <p>Returns database statistics and unique lists for filters.</p>
+        <h3>.random()</h3>
+        <p>Returns a single, randomly selected Game Object from the database.</p>
         <div class="code-block">
             <button class="copy-btn" onclick="copyCode(this)"><i data-lucide="copy" size="18"></i></button>
-            <pre><code><span class="s-kw">const</span> meta = <span class="s-kw">await</span> hrn.db.<span class="s-kw">getMeta</span>();
-<span class="s-kw">// Output: { total: 150, categories: [...], devices: [...] }</span></code></pre>
+            <pre><code><span class="s-kw">const</span> luckyPick = <span class="s-kw">await</span> hrn.db.<span class="s-kw">random</span>();
+<span class="s-com">// Output: { name: "Bacon May Die", number: 17 ... }</span></code></pre>
         </div>
-        
-        <h3>.all()</h3>
-        <p>Returns the complete database as an array.</p>
+
+        <h3>.toggleFav(id) & .getFavs()</h3>
+        <p>Manages user favorites via LocalStorage. No account required.</p>
         <div class="code-block">
             <button class="copy-btn" onclick="copyCode(this)"><i data-lucide="copy" size="18"></i></button>
-            <pre><code><span class="s-kw">const</span> everything = <span class="s-kw">await</span> hrn.db.<span class="s-kw">all</span>();</code></pre>
+            <pre><code><span class="s-com">// 1. Toggle ID 17 (Add/Remove)</span>
+hrn.db.<span class="s-kw">toggleFav</span>(<span class="s-num">17</span>);
+
+<span class="s-com">// 2. Fetch full objects of favorite games</span>
+<span class="s-kw">const</span> myGames = <span class="s-kw">await</span> hrn.db.<span class="s-kw">getFavs</span>();</code></pre>
+        </div>
+
+        <h3>.all() & .getMeta()</h3>
+        <p>Utilities for fetching the complete dataset or statistical metadata.</p>
+        <div class="code-block">
+            <button class="copy-btn" onclick="copyCode(this)"><i data-lucide="copy" size="18"></i></button>
+            <pre><code><span class="s-kw">const</span> allGames = <span class="s-kw">await</span> hrn.db.<span class="s-kw">all</span>();
+<span class="s-kw">const</span> meta = <span class="s-kw">await</span> hrn.db.<span class="s-kw">getMeta</span>();</code></pre>
         </div>
     </section>
 
@@ -319,6 +277,7 @@
         <div class="explorer-controls">
             <input type="text" id="ex-input" class="search-input" placeholder="e.g. '10 minutes' or 'survival'...">
             <button class="run-btn" onclick="runSearch()"><i data-lucide="play" size="16"></i> .search()</button>
+            <button class="run-btn" onclick="runRandom()"><i data-lucide="shuffle" size="16"></i> .random()</button>
             <button class="run-btn" onclick="runAll()"><i data-lucide="list" size="16"></i> .all()</button>
         </div>
 
@@ -334,7 +293,7 @@
     </footer>
 </div>
 
-<script src="https://cdn.jsdelivr.net/gh/Odne2920/hrn-libs/lib.min.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/Odne2920/hrn-libs/1.1/lib.min.js"></script>
 
 <script>
     lucide.createIcons();
@@ -378,6 +337,17 @@
         
         try {
             const res = await window.hrn.db.search(term);
+            renderJSON(res);
+        } catch(e) {
+            output.innerHTML = `<div style="padding:20px; color:red;">Error: ${e.message}</div>`;
+        }
+    }
+
+    async function runRandom() {
+        const output = document.getElementById('explorer-output');
+        output.innerHTML = '<div style="padding:20px;">Picking random game...</div>';
+        try {
+            const res = await window.hrn.db.random();
             renderJSON(res);
         } catch(e) {
             output.innerHTML = `<div style="padding:20px; color:red;">Error: ${e.message}</div>`;
