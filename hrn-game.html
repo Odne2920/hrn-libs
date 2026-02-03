@@ -25,6 +25,12 @@
             --sb-thumb: #a0a0a0;
             --sb-track: #050505;
             --sb-hover: #ffffff;
+
+            /* Syntax Highlighting */
+            --sh-key: #9cdcfe;
+            --sh-str: #ce9178;
+            --sh-num: #b5cea8;
+            --sh-kw: #569cd6;
         }
 
         /* --- Scrollbar Styling (Elegant Light Theme) --- */
@@ -49,7 +55,7 @@
         ::-webkit-scrollbar-thumb {
             background-color: var(--sb-thumb);
             border-radius: 10px;
-            border: 3px solid var(--sb-track); /* Creates a 'floating' look */
+            border: 3px solid var(--sb-track);
         }
 
         ::-webkit-scrollbar-thumb:hover {
@@ -90,8 +96,14 @@
             color: #fff; display: flex; align-items: center; gap: 10px;
         }
 
+        h3 {
+            font-size: 1.1rem; color: #fff; margin-top: 40px; margin-bottom: 15px; 
+            font-family: 'Fira Code', monospace; display: flex; align-items: center; gap: 10px;
+        }
+
         p { color: var(--text-dim); margin-bottom: 20px; font-size: 1rem; }
 
+        /* --- Code Blocks --- */
         .code-block { 
             position: relative; margin: 25px 0; border-radius: 8px; 
             border: 1px solid var(--border); background: var(--code-bg); 
@@ -102,7 +114,7 @@
         code { font-family: 'Fira Code', monospace; }
         
         .tag { color: #569CD6; } .attr { color: #9CDCFE; } 
-        .str { color: #CE9178; }
+        .str { color: #CE9178; } .kw { color: #C586C0; }
 
         .copy-btn {
             position: absolute; top: 12px; right: 12px;
@@ -111,6 +123,7 @@
         }
         .copy-btn:hover { color: #fff; border-color: var(--primary); }
 
+        /* --- Tables --- */
         .table-wrap {
             overflow-x: auto; border: 1px solid var(--border);
             border-radius: 8px; background: var(--surface);
@@ -168,7 +181,7 @@
         <h1>&lt;hrn-game&gt;</h1>
         <p class="hero-p">
             A high-performance Web Component for secure, lazy-loaded HTML5 gaming. 
-            Zero configuration required—just drop it in and play.
+            Now featuring custom theming and event callbacks.
         </p>
     </header>
 
@@ -178,13 +191,13 @@
         
         <div class="code-block">
             <button class="copy-btn" onclick="copyCode(this)"><i data-lucide="copy" size="18"></i></button>
-            <pre><code><span class="tag">&lt;script</span> <span class="attr">src</span>=<span class="str">"https://cdn.jsdelivr.net/gh/Odne2920/hrn-libs/lib.min.js"</span><span class="tag">&gt;&lt;/script&gt;</span></code></pre>
+            <pre><code><span class="tag">&lt;script</span> <span class="attr">src</span>=<span class="str">"https://cdn.jsdelivr.net/gh/Odne2920/hrn-libs/1.1/lib.min.js"</span><span class="tag">&gt;&lt;/script&gt;</span></code></pre>
         </div>
     </section>
 
     <section>
         <h2><i data-lucide="settings" size="20"></i> 2. Attributes</h2>
-        <p>Configure the component behavior using the following attributes.</p>
+        <p>Configure basic component behavior using these attributes.</p>
         
         <div class="table-wrap">
             <table>
@@ -209,7 +222,7 @@
                     <tr>
                         <td><code>redirectblock</code></td>
                         <td>Boolean</td>
-                        <td>Default <code>true</code>. Prevents popups and top-level redirects for security.</td>
+                        <td>Default <code>true</code>. Prevents popups and top-level redirects.</td>
                     </tr>
                     <tr>
                         <td><code>provider</code></td>
@@ -222,7 +235,38 @@
     </section>
 
     <section>
-        <h2><i data-lucide="list" size="20"></i> 3. Game ID List</h2>
+        <h2><i data-lucide="palette" size="20"></i> 3. Theming & Styling</h2>
+        <p>
+            The component is protected by Shadow DOM, but you can style the loader and text color using a CSS variable.
+        </p>
+
+        <div class="code-block">
+            <button class="copy-btn" onclick="copyCode(this)"><i data-lucide="copy" size="18"></i></button>
+            <pre><code><span class="tag">hrn-game</span> {
+    <span class="comment">/* Changes loader spinner and text color */</span>
+    <span class="attr">--hrn-color</span>: <span class="str">#ff0055</span>;
+}</code></pre>
+        </div>
+    </section>
+
+    <section>
+        <h2><i data-lucide="zap" size="20"></i> 4. JavaScript Events</h2>
+        <p>
+            Listen for the <code>game:ready</code> event to know when the iframe has successfully loaded.
+        </p>
+
+        <div class="code-block">
+            <button class="copy-btn" onclick="copyCode(this)"><i data-lucide="copy" size="18"></i></button>
+            <pre><code><span class="kw">const</span> game = <span class="kw">document</span>.querySelector(<span class="str">'hrn-game'</span>);
+
+game.addEventListener(<span class="str">'game:ready'</span>, (e) => {
+    <span class="kw">console</span>.log(<span class="str">"Game Loaded ID:"</span>, e.detail.id);
+});</code></pre>
+        </div>
+    </section>
+
+    <section>
+        <h2><i data-lucide="list" size="20"></i> 5. Game ID List</h2>
         <p>Use the IDs below for the <code>nr</code> attribute. This list is fetched live from the database.</p>
         
         <div class="search-container">
@@ -248,17 +292,20 @@
     </section>
 
     <section>
-        <h2><i data-lucide="layout" size="20"></i> 4. Full Example</h2>
-        <p>The component fills 100% of the parent container. Ensure the parent has a defined height.</p>
+        <h2><i data-lucide="layout" size="20"></i> 6. Full Example</h2>
+        <p>A complete example with custom styling and event listeners.</p>
 
         <div class="code-block">
             <button class="copy-btn" onclick="copyCode(this)"><i data-lucide="copy" size="18"></i></button>
             <pre><code><span class="tag">&lt;!DOCTYPE html&gt;</span>
 <span class="tag">&lt;html&gt;</span>
 <span class="tag">&lt;head&gt;</span>
-    <span class="tag">&lt;script</span> <span class="attr">src</span>=<span class="str">"https://cdn.jsdelivr.net/gh/Odne2920/hrn-libs/lib.min.js"</span><span class="tag">&gt;&lt;/script&gt;</span>
+    <span class="tag">&lt;script</span> <span class="attr">src</span>=<span class="str">"https://cdn.jsdelivr.net/gh/Odne2920/hrn-libs/1.1/lib.min.js"</span><span class="tag">&gt;&lt;/script&gt;</span>
     <span class="tag">&lt;style&gt;</span>
-        body { margin: 0; padding: 0; background: #000; height: 100vh; overflow: hidden; }
+        body { margin: 0; background: #000; height: 100vh; overflow: hidden; }
+        
+        /* Custom Theme Color */
+        hrn-game { --hrn-color: #22c55e; }
     <span class="tag">&lt;/style&gt;</span>
 <span class="tag">&lt;/head&gt;</span>
 <span class="tag">&lt;body&gt;</span>
@@ -266,6 +313,12 @@
     <span class="tag">&lt;div</span> <span class="attr">style</span>=<span class="str">"width: 100%; height: 100%;"</span><span class="tag">&gt;</span>
         <span class="tag">&lt;hrn-game</span> <span class="attr">nr</span>=<span class="str">"17"</span> <span class="attr">credits</span>=<span class="str">"false"</span><span class="tag">&gt;&lt;/hrn-game&gt;</span>
     <span class="tag">&lt;/div&gt;</span>
+
+    <span class="tag">&lt;script&gt;</span>
+        document.querySelector('hrn-game').addEventListener('game:ready', () => {
+            console.log("Enjoy the game!");
+        });
+    <span class="tag">&lt;/script&gt;</span>
 
 <span class="tag">&lt;/body&gt;</span>
 <span class="tag">&lt;/html&gt;</span></code></pre>
